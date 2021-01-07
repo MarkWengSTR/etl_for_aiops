@@ -34,9 +34,9 @@ def create_index(ctx):
 
 if __name__ == "__main__":
     es_setting = {
-        "end_point": "https://4b90f7555cf24f80878d2e9144d04507.asia-east1.gcp.elastic-cloud.com:9243",
+        "end_point": "https://afa935ed198c480d8d9d7a58a60eadb7.asia-east1.gcp.elastic-cloud.com:9243",
         "user": "elastic",
-        "password": "uChHjfYU1WX6CM2KCkZqzESB",
+        "password": "quSvDoseZIgR4KhD9fCS6UN4",
         "es_object": None,
     }
 
