@@ -10,7 +10,7 @@ def prepare(index_ctx):
 
 
 def create(index_ctx):
-    es = index_ctx["es_setting"]["es_object"]
+    es = index_ctx["es_object"]
 
     result = es.indices.create(
         index=index_ctx["index_properties"]["name"], body=index_ctx["index_setting_struc"]["body"])
@@ -33,7 +33,7 @@ def create_process(ctx):
                 }
             }
         },
-        "es_setting": ctx["es_setting"],
+        "es_object": ctx["es_object"],
         "index_properties": ctx["index_properties"],
     }
 

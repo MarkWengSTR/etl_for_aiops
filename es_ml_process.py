@@ -1,27 +1,16 @@
-from elasticsearch import Elasticsearch
 import es_api.index as idx
-
-
-def prepare_es_object(ctx):
-    es_setting = ctx["es_setting"]
-    es_setting["es_object"] = Elasticsearch(
-        es_setting["end_point"], http_auth=(
-            es_setting["user"], es_setting["password"])
-    )
-
-    return ctx
+import es_api.object as ob
 
 
 if __name__ == "__main__":
-    es_setting = {
+    es_properties = {
         "end_point": "https://afa935ed198c480d8d9d7a58a60eadb7.asia-east1.gcp.elastic-cloud.com:9243",
         "user": "elastic",
         "password": "quSvDoseZIgR4KhD9fCS6UN4",
-        "es_object": None,
     }
 
     index_properties = {
-        "name": "2021-01-06-test",
+        "name": "2021-01-08-test",
         "shards": 1,
         "replicas": 1,
         "properties": {
@@ -32,9 +21,10 @@ if __name__ == "__main__":
     }
 
     ctx = {
-        "es_setting": es_setting,
+        "es_object": None,
+        "es_properties": es_properties,
         "index_properties": index_properties,
     }
 
-    prepare_es_object(ctx) and \
+    ob.prepare_es_object(ctx) and \
         idx.create_process(ctx)
