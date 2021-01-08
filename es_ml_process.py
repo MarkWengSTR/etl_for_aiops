@@ -1,4 +1,5 @@
 from elasticsearch import Elasticsearch
+import es_api.index as idx
 
 
 def prepare_es_object(ctx):
@@ -11,46 +12,12 @@ def prepare_es_object(ctx):
     return ctx
 
 
-def prepare_index(ctx):
-    index_body = ctx["index_setting_struc"]["body"]
-    index_properties = ctx["index_properties"]
-
-    index_body["settings"]["number_of_shards"] = index_properties["shards"]
-    index_body["settings"]["number_of_replicas"] = index_properties["replicas"]
-    index_body["mappings"]["properties"] = index_properties["properties"]
-
-    return ctx
-
-
-def create_index(ctx):
-    es = ctx["es_setting"]["es_object"]
-
-    result = es.indices.create(
-        index=ctx["index_properties"]["name"], body=ctx["index_setting_struc"]["body"])
-    print(result)
-
-    return ctx
-
-
 if __name__ == "__main__":
     es_setting = {
         "end_point": "https://afa935ed198c480d8d9d7a58a60eadb7.asia-east1.gcp.elastic-cloud.com:9243",
         "user": "elastic",
         "password": "quSvDoseZIgR4KhD9fCS6UN4",
         "es_object": None,
-    }
-
-    index_setting_struc = {
-        "name": "",
-        "body": {
-            "settings": {
-                "number_of_shards": None,
-                "number_of_replicas": None
-            },
-            "mappings": {
-                "properties": {}
-            }
-        }
     }
 
     index_properties = {
@@ -66,10 +33,8 @@ if __name__ == "__main__":
 
     ctx = {
         "es_setting": es_setting,
-        "index_setting_struc": index_setting_struc,
         "index_properties": index_properties,
     }
 
     prepare_es_object(ctx) and \
-        prepare_index(ctx) and \
-        create_index(ctx)
+        idx.create_process(ctx)
