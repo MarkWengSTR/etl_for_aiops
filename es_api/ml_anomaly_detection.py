@@ -10,7 +10,7 @@ def create_job(mlad_ctx):
     return mlad_ctx
 
 
-def mlad_process(ctx):
+def process(ctx):
     mlad_ctx = {
         "es_object": ctx["es_object"],
         "mlad_properties": ctx["mlad_properties"]

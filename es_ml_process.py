@@ -65,4 +65,4 @@ if __name__ == "__main__":
     # ob.prepare_es_object(ctx) and \
     #     idx.create_process(ctx)
     ob.prepare_es_object(ctx) and \
-        mlad.mlad_process(ctx)
+        mlad.process(ctx)
