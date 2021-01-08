@@ -1,0 +1,60 @@
+PUT _ml/anomaly_detectors/20201123-cpu-reqtest
+{
+  "description": "",
+    "groups": [],
+    "analysis_config": {
+        "bucket_span": "15m",
+        "detectors": [
+        {
+                "function": "mean",
+                        "field_name": "cpu",
+                                "partition_field_name": "hostname"
+                                      
+        }
+            
+        ],
+        "influencers": [
+              "hostname"
+                  
+        ]
+          
+    },
+    "data_description": {
+        "time_field": "@timestamp"
+          
+    },
+    "custom_settings": {
+        "created_by": "multi-metric-wizard"
+          
+    },
+    "analysis_limits": {
+        "model_memory_limit": "13MB"
+          
+    },
+    "model_plot_config": {
+        "enabled": false,
+            "annotations_enabled": false
+              
+    }
+    
+}
+
+PUT _ml/datafeeds/datafeed-cpu-data
+{
+  "job_id": "20201123-cpu-reqtest",
+    "indices": ["20201123-cpu-data"]
+    
+}
+
+POST _ml/anomaly_detectors/20201123-cpu-reqtest/_open
+
+POST _ml/datafeeds/datafeed-cpu-data/_start
+{
+  "start": "2020-11-23T00:00:16Z",
+    "end": "2020-11-24T00:00:16Z"
+    
+}
+
+POST _ml/datafeeds/datafeed-cpu-data/_stop
+
+POST _ml/anomaly_detectors/20201123-cpu-reqtest/_close
