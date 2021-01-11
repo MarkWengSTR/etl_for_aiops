@@ -104,9 +104,9 @@ def process(ctx):
     create_job(mlad_ctx) and \
         create_datafeed(mlad_ctx) and \
         open_job(mlad_ctx) and \
-        start_datafeed(mlad_ctx) and \
-        get_records(mlad_ctx)
+        start_datafeed(mlad_ctx)
 
-    ctx["mlad_result"] = mlad_ctx["ad_result"]
+    # get_records(mlad_ctx) # get ml analysis result
+    # ctx["mlad_result"] = mlad_ctx["ad_result"]
 
     return ctx

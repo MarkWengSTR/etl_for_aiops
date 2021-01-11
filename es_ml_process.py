@@ -63,7 +63,6 @@ if __name__ == "__main__":
         },
         "datafeed_time": {
             "tart": "2020-11-23T00:00:16Z",
-            "end": "2020-11-24T00:00:16Z"
         },
         "datafeed_stop_params": None,
         "get_records_params": {
