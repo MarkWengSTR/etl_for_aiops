@@ -1,6 +1,8 @@
 import es_api.object as ob
 import es_api.index as idx
 import es_api.ml_anomaly_detection as mlad
+import logging
+logging.basicConfig(level=logging.DEBUG)
 
 
 if __name__ == "__main__":
@@ -52,14 +54,30 @@ if __name__ == "__main__":
                 "enabled": False,
                 "annotations_enabled": False
             }
-        }
+        },
+        "close_job_params": None,
+        "datafeed_id": "datafeed-cpu-data-python",
+        "datafeed_body": {
+            "job_id": "20201123-cpu-reqtest-python",
+            "indices": ["20201123-cpu-data"]
+        },
+        "datafeed_time": {
+            "tart": "2020-11-23T00:00:16Z",
+            "end": "2020-11-24T00:00:16Z"
+        },
+        "datafeed_stop_params": None,
+        "get_records_params": {
+            "sort": "record_score",
+            "desc": True
+        },
     }
 
     ctx = {
         "es_object": None,
         "es_properties": es_properties,
         "index_properties": index_properties,
-        "mlad_properties": mlad_properties
+        "mlad_properties": mlad_properties,
+        "mlad_result": None
     }
 
     # ob.prepare_es_object(ctx) and \
