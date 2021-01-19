@@ -178,6 +178,7 @@ if __name__ == "__main__":
 
     ctx = {
         "es_object": None,
+        "index_already_exist": None,
         "es_properties": es_ob_prop.data_es,
         "index_properties": index_properties,
         "mlad_properties": mlad_properties,

@@ -1,3 +1,8 @@
+def is_exist(index_ctx):
+    return index_ctx["es_object"].indices.exists(
+        index=index_ctx["index_properties"]["name"])
+
+
 def prepare(index_ctx):
     index_body = index_ctx["index_setting_struc"]["body"]
     index_properties = index_ctx["index_properties"]
@@ -37,7 +42,11 @@ def create_process(ctx):
         "index_properties": ctx["index_properties"],
     }
 
-    prepare(index_ctx) and \
-        create(index_ctx)
+    if is_exist(index_ctx):
+        ctx["index_already_exist"] = True
+    else:
+        ctx["index_already_exist"] = False
+        prepare(index_ctx) and \
+            create(index_ctx)
 
     return ctx
