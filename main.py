@@ -2,6 +2,7 @@ import es_api.object as ob
 import es_api.index as idx
 import es_api.ml_anomaly_detection as mlad
 import data.object as es_ob_prop
+import es_api.search as es_search
 import logging
 logging.basicConfig(level=logging.DEBUG)
 
@@ -66,15 +67,45 @@ if __name__ == "__main__":
         },
     }
 
+    search_asr_device = {
+        "index": "nms-devices_status-test-2020.07",
+        "body": {
+            "size": 100,
+            "query": {
+                "bool": {
+                    "must": [
+                        {"regexp": {
+                            "Devices_name.keyword": {
+                                "value": ".*ASR.*"
+                            }
+                        }}
+                    ],
+                    "filter": [
+                        {"range": {
+                            "@timestamp": {
+                                "gte": "now-5m/m",
+                                "lt": "now/m"
+                            }
+                        }}
+                    ]
+                }
+            }
+        }
+    }
+
     ctx = {
         "es_object": None,
-        "es_properties": es_ob_prop.ml_es,
+        "es_properties": es_ob_prop.data_es,
         "index_properties": index_properties,
         "mlad_properties": mlad_properties,
+        "search_properties": search_asr_device,
+        "search_result": None,
         "mlad_result": None
     }
 
     # ob.prepare_es_object(ctx) and \
     #     idx.create_process(ctx)
+    # ob.prepare_es_object(ctx) and \
+    #     mlad.process(ctx)
     ob.prepare_es_object(ctx) and \
-        mlad.process(ctx)
+        es_search.process(ctx)
