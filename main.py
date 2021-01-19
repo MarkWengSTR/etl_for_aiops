@@ -9,13 +9,96 @@ logging.basicConfig(level=logging.DEBUG)
 
 if __name__ == "__main__":
     index_properties = {
-        "name": "2021-01-08-test",
+        "name": "elk-test-index",
         "shards": 1,
         "replicas": 1,
         "properties": {
-            "Datetime": {"type": "date"},
-            "Devices_name": {"type": "text"},
-            "memory": {"type": "float"}
+            {
+                "@timestamp": {
+                    "type": "date"
+                },
+                "CPUStatus": {
+                    "type": "long"
+                },
+                "CPUStatus_CheckTime": {
+                    "type": "date"
+                },
+                "Channel1_CurrentTemperature": {
+                    "type": "float"
+                },
+                "Channel2_CurrentTemperature": {
+                    "type": "float"
+                },
+                "Channel3_CurrentTemperature": {
+                    "type": "float"
+                },
+                "Channel4_CurrentTemperature": {
+                    "type": "long"
+                },
+                "CurrentAvgRTT": {
+                    "type": "float"
+                },
+                "CurrentCPU": {
+                    "type": "long"
+                },
+                "CurrentMaxRTT": {
+                    "type": "float"
+                },
+                "CurrentMemory": {
+                    "type": "long"
+                },
+                "CurrentMinRTT": {
+                    "type": "float"
+                },
+                "CurrentPktLossRate": {
+                    "type": "long"
+                },
+                "CurrentStatus": {
+                    "type": "long"
+                },
+                "CurrentStatus_CheckTime": {
+                    "type": "date"
+                },
+                "Devices_id": {
+                    "type": "long"
+                },
+                "Devices_name": {
+                    "type": "text",
+                    "fields": {
+                        "keyword": {
+                            "type": "keyword",
+                            "ignore_above": 256
+                        }
+                    }
+                },
+                "MemoryStatus": {
+                    "type": "long"
+                },
+                "MemoryStatus_CheckTime": {
+                    "type": "date"
+                },
+                "TemperatureStatus": {
+                    "type": "long"
+                },
+                "TemperatureStatus_CheckTime": {
+                    "type": "date"
+                },
+                "VoltageStatus": {
+                    "type": "long"
+                },
+                "VoltageStatus_CheckTime": {
+                    "type": "date"
+                },
+                "v4PingStatus": {
+                    "type": "long"
+                },
+                "v4PingStatus_CheckTime": {
+                    "type": "date"
+                },
+                "v6PingStatus": {
+                    "type": "long"
+                }
+            }
         }
     }
 
@@ -25,7 +108,7 @@ if __name__ == "__main__":
             "description": "",
             "groups": [],
             "analysis_config": {
-                  "bucket_span": "15m",
+                "bucket_span": "15m",
                 "detectors": [
                     {
                         "function": "mean",
@@ -109,3 +192,4 @@ if __name__ == "__main__":
     #     mlad.process(ctx)
     ob.prepare_es_object(ctx) and \
         es_search.process(ctx)
+    print(ctx["search_result"]["hits"]["hits"][0]["_source"])
