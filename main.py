@@ -1,7 +1,7 @@
 import es_api.object as ob
 import es_api.index as idx
 import es_api.ml_anomaly_detection as mlad
-import data.object as es_ob_prop
+import properties.object as es_ob_prop
 import es_api.search as es_search
 import logging
 logging.basicConfig(level=logging.DEBUG)
