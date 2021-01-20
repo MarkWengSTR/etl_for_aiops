@@ -37,7 +37,7 @@ anomaly_detect_twaren_device = {
         "indices": ["20201123-cpu-data"]
     },
     "datafeed_time": {
-        "tart": "2020-11-23T00:00:16Z",
+        "start": "2020-11-23T00:00:16Z",
     },
     "datafeed_stop_params": None,
     "get_records_params": {
