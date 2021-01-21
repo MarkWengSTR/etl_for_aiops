@@ -96,7 +96,7 @@ def get_records(mlad_ctx):
 
 def process(ctx):
     mlad_ctx = {
-        "es_object": ctx["es_object"],
+        "es_object": ctx["analy_es_object"],
         "mlad_properties": ctx["mlad_properties"],
         "ad_result": None
     }

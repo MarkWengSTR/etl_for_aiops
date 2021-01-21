@@ -1,7 +1,7 @@
 twaren_asr_device = {
     "index": "nms-devices_status-test-2020.07",
     "body": {
-        "size": 100,
+        "size": 10,
         "query": {
             "bool": {
                 "must": [
