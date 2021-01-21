@@ -1,5 +1,5 @@
 anomaly_detect_twaren_device = {
-    "job_id": "20201123-cpu-reqtest-python",
+    "job_id": "must assign",
     "job_body": {
         "description": "",
         "groups": [],
@@ -8,12 +8,12 @@ anomaly_detect_twaren_device = {
             "detectors": [
                 {
                     "function": "mean",
-                    "field_name": "cpu",
-                    "partition_field_name": "hostname"
+                    "field_name": "CPUStatus",
+                    "partition_field_name": "Devices_name"
                 }
             ],
             "influencers": [
-                "hostname"
+                "Devices_name"
             ]
         },
         "data_description": {
@@ -31,13 +31,13 @@ anomaly_detect_twaren_device = {
         }
     },
     "close_job_params": None,
-    "datafeed_id": "datafeed-cpu-data-python",
+    "datafeed_id": "must assign",
     "datafeed_body": {
-        "job_id": "20201123-cpu-reqtest-python",
-        "indices": ["20201123-cpu-data"]
+        "job_id": "must assign",
+        "indices": ["must assign", ]
     },
     "datafeed_time": {
-        "start": "2020-11-23T00:00:16Z",
+        "start": "2021-01-21T00:00:00",
     },
     "datafeed_stop_params": None,
     "get_records_params": {

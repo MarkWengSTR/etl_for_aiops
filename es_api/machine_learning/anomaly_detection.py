@@ -2,59 +2,58 @@ from elasticsearch.client import MlClient
 
 
 def create_job(mlad_ctx):
-    mlad_properties = mlad_ctx["mlad_properties"]
-
     MlClient.put_job(
-        mlad_ctx["es_object"], job_id=mlad_properties["job_id"], body=mlad_properties["job_body"])
+        mlad_ctx["es_object"], job_id=mlad_ctx["job_id"], body=mlad_ctx["mlad_properties"]["job_body"])
 
     return mlad_ctx
 
 
 def open_job(mlad_ctx):
-    mlad_properties = mlad_ctx["mlad_properties"]
-
     MlClient.open_job(mlad_ctx["es_object"],
-                      job_id=mlad_properties["job_id"])
+                      job_id=mlad_ctx["job_id"])
 
     return mlad_ctx
 
 
 def close_job(mlad_ctx):
-    mlad_properties = mlad_ctx["mlad_properties"]
-
     MlClient.close_job(mlad_ctx["es_object"],
-                       job_id=mlad_properties["job_id"])
+                       job_id=mlad_ctx["job_id"])
+
+    return mlad_ctx
+
+
+def catch_indices_in_result(mlad_ctx):
+    mlad_ctx["datafeed_indices"] = list(
+        set(map(lambda x: x['_index'], mlad_ctx["search_document_result"])))
 
     return mlad_ctx
 
 
 def create_datafeed(mlad_ctx):
-    mlad_properties = mlad_ctx["mlad_properties"]
     datafeed_body = {
-        "job_id": mlad_properties["job_id"],
-        "indices": mlad_properties["datafeed_body"]["indices"]
+        "job_id": mlad_ctx["job_id"],
+        "indices": mlad_ctx["datafeed_indices"]
     }
 
     MlClient.put_datafeed(
-        mlad_ctx["es_object"], datafeed_id=mlad_properties["datafeed_id"], body=datafeed_body)
+        mlad_ctx["es_object"], datafeed_id=mlad_ctx["datafeed_id"], body=datafeed_body)
 
     return mlad_ctx
 
 
 def start_datafeed(mlad_ctx):
-    mlad_properties = mlad_ctx["mlad_properties"]
-
     MlClient.start_datafeed(
-        mlad_ctx["es_object"], datafeed_id=mlad_properties["datafeed_id"], body=mlad_properties["datafeed_time"])
+        mlad_ctx["es_object"], datafeed_id=mlad_ctx["datafeed_id"], body=mlad_ctx["mlad_properties"]["datafeed_time"])
+    # MlClient.start_datafeed(
+    #     mlad_ctx["es_object"], datafeed_id=mlad_ctx["datafeed_id"])
 
     return mlad_ctx
 
 
 def stop_datafeed(mlad_ctx):
-    mlad_properties = mlad_ctx["mlad_properties"]
-
     MlClient.stop_datafeed(
-        mlad_ctx["es_object"], datafeed_id=mlad_properties["datafeed_id"], body=mlad_properties["datafeed_stop_params"])
+        mlad_ctx["es_object"], datafeed_id=mlad_ctx["datafeed_id"],
+        body=mlad_ctx["mlad_properties"]["datafeed_stop_params"])
 
     return mlad_ctx
 
@@ -96,12 +95,16 @@ def get_records(mlad_ctx):
 
 def process(ctx):
     mlad_ctx = {
+        "job_id": "test_job_1",
+        "datafeed_id": "test_datafeed_1",
         "es_object": ctx["analy_es_object"],
         "mlad_properties": ctx["mlad_properties"],
+        "search_document_result": ctx["search_result"]["hits"]["hits"],
         "ad_result": None
     }
 
     create_job(mlad_ctx) and \
+        catch_indices_in_result(mlad_ctx) and \
         create_datafeed(mlad_ctx) and \
         open_job(mlad_ctx) and \
         start_datafeed(mlad_ctx)
