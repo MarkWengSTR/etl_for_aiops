@@ -38,7 +38,7 @@ def ml_es_prepare(ctx):
     return ctx
 
 
-def process(ctx):
+def prepare_all(ctx):
     data_es_prepare(ctx) and \
         ml_es_prepare(ctx)
 

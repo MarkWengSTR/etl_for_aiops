@@ -1,5 +1,5 @@
 twaren_device = {
-    "name": "elk-test",
+    "name": "nms-devices_status-test-2020.07",
     "body": {
         "settings": {
             "number_of_shards": 1,

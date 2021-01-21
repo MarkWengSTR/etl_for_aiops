@@ -9,7 +9,6 @@ import properties.search as es_search_prop
 import logging
 logging.basicConfig(level=logging.DEBUG)
 
-
 if __name__ == "__main__":
     ctx = {
         "data_es_object": None,
@@ -22,15 +21,8 @@ if __name__ == "__main__":
         "mlad_result": None
     }
 
-    # ob.prepare_es_object(ctx) and \
-    #     idx.create_process(ctx)
-    # ob.prepare_es_object(ctx) and \
-    #     mlad.process(ctx)
-    # ob.prepare_es_object(ctx) and \
-    #     es_search.execute(ctx) and \
-    #     es_bulk.execute_from_search(ctx)
-    ob.process(ctx) and \
+    ob.prepare_all(ctx) and \
+        idx.create_process(ctx) and \
         es_search.execute(ctx) and \
         es_bulk.post_from_search(ctx)
-
-    print(ctx["search_result"]["hits"]["hits"][0]["_id"])
+    # mlad.process(ctx)
