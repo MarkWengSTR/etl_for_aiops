@@ -4,16 +4,19 @@ anomaly_detect_twaren_device = {
         "description": "",
         "groups": [],
         "analysis_config": {
-            "bucket_span": "15m",
             "detectors": [
                 {
+                    "function": "count",
+                    "partition_field_name": "Devices_name.keyword"
+                },
+                {
                     "function": "mean",
-                    "field_name": "CPUStatus",
-                    "partition_field_name": "Devices_name"
+                    "field_name": "CurrentCPU",
+                    "partition_field_name": "Devices_name.keyword"
                 }
             ],
             "influencers": [
-                "Devices_name"
+                "Devices_name.keyword"
             ]
         },
         "data_description": {
@@ -28,13 +31,14 @@ anomaly_detect_twaren_device = {
         "model_plot_config": {
             "enabled": False,
             "annotations_enabled": False
-        }
+        },
+        "results_index_name": "same as job id"
     },
     "close_job_params": None,
     "datafeed_id": "must assign",
     "datafeed_body": {
         "job_id": "must assign",
-        "indices": ["must assign", ]
+        "indices": "must assign"
     },
     "datafeed_time": {
         "start": "2021-01-21T00:00:00",

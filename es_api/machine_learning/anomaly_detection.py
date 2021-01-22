@@ -2,8 +2,12 @@ from elasticsearch.client import MlClient
 
 
 def create_job(mlad_ctx):
+    job_id = mlad_ctx["job_id"]
+    job_body = mlad_ctx["mlad_properties"]["job_body"]
+    job_body["results_index_name"] = job_id
+
     MlClient.put_job(
-        mlad_ctx["es_object"], job_id=mlad_ctx["job_id"], body=mlad_ctx["mlad_properties"]["job_body"])
+        mlad_ctx["es_object"], job_id=job_id, body=job_body)
 
     return mlad_ctx
 
@@ -18,13 +22,6 @@ def open_job(mlad_ctx):
 def close_job(mlad_ctx):
     MlClient.close_job(mlad_ctx["es_object"],
                        job_id=mlad_ctx["job_id"])
-
-    return mlad_ctx
-
-
-def catch_indices_in_result(mlad_ctx):
-    mlad_ctx["datafeed_indices"] = list(
-        set(map(lambda x: x['_index'], mlad_ctx["search_document_result"])))
 
     return mlad_ctx
 
@@ -95,8 +92,9 @@ def get_records(mlad_ctx):
 
 def process(ctx):
     mlad_ctx = {
-        "job_id": "test_job_1",
-        "datafeed_id": "test_datafeed_1",
+        "job_id": "test_job_2",
+        "datafeed_id": "test_datafeed_2",
+        "datafeed_indices": ["nms-devices_status-test-*"],
         "es_object": ctx["analy_es_object"],
         "mlad_properties": ctx["mlad_properties"],
         "search_document_result": ctx["search_result"]["hits"]["hits"],
@@ -104,7 +102,6 @@ def process(ctx):
     }
 
     create_job(mlad_ctx) and \
-        catch_indices_in_result(mlad_ctx) and \
         create_datafeed(mlad_ctx) and \
         open_job(mlad_ctx) and \
         start_datafeed(mlad_ctx)
