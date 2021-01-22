@@ -41,8 +41,7 @@ def posts_reformat(documents):
                                  single_post_reformat(docu), documents, []))
 
 
-def post_from_search(ctx):
-
+def bulk_from_search(ctx):
     documents = ctx["search_result"]["hits"]["hits"]
 
     if documents:
