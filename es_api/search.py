@@ -108,16 +108,16 @@ def transform_date_field(search_result):
 
 def epoch_millis_to_datedime(epoch_milliseconds):
     return datetime.datetime.fromtimestamp(
-        epoch_milliseconds / 1000.0).strftime('%Y-%m-%d %H:%M:%S')
+        epoch_milliseconds / 1000.0).strftime("%Y-%m-%d %H:%M:%S")
 
 
 def execute(ctx):
     es = ctx["data_es_object"]
     search_properties = ctx["search_properties"]
 
-    ctx["search_result"] = transform_date_field(
-        es.search(index=search_properties["index"], body=search_properties["body"]))
-    # ctx["search_result"] = es.search(
-    #     index=search_properties["index"], body=search_properties["body"])
+    # ctx["search_result"] = transform_date_field(
+    #     es.search(index=search_properties["index"], body=search_properties["body"]))
+    ctx["search_result"] = es.search(
+        index=search_properties["index"], body=search_properties["body"])
 
     return ctx

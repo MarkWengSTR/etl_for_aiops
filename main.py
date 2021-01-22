@@ -24,5 +24,5 @@ if __name__ == "__main__":
     ob.prepare_all(ctx) and \
         idx.create_process(ctx) and \
         es_search.execute(ctx) and \
-        es_bulk.post_from_search(ctx)
-    # mlad.process(ctx)
+        es_bulk.bulk_from_search(ctx) and \
+        mlad.process(ctx)
