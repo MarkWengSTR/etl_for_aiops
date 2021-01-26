@@ -41,6 +41,17 @@ def posts_reformat(documents):
                                  single_post_reformat(docu), documents, []))
 
 
+def bulk_from_scan(ctx):
+    documents = ctx["search_result"]
+
+    if documents:
+        ctx["analy_es_object"].bulk(
+            posts_reformat(documents), index=documents[0]["_index"])
+    # expect only one index
+
+    return ctx
+
+
 def bulk_from_search(ctx):
     documents = ctx["search_result"]["hits"]["hits"]
 

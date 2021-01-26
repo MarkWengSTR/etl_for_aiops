@@ -1,7 +1,6 @@
 twaren_asr_device = {
     "index": "nms-devices_status-test-2020.07",
     "body": {
-        "size": 100,
         "query": {
             "bool": {
                 "must": [
@@ -14,7 +13,7 @@ twaren_asr_device = {
                 "filter": [
                     {"range": {
                         "@timestamp": {
-                            "gte": "now-5m/m",
+                            "gte": "now-30m/m",
                             "lt": "now/m"
                         }
                     }}
@@ -23,3 +22,6 @@ twaren_asr_device = {
         }
     }
 }
+# "body": {
+#     "size": 10000,
+# }

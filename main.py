@@ -7,22 +7,27 @@ import properties.index as es_idx_prop
 import properties.machine_learning as es_ml_prop
 import properties.search as es_search_prop
 import logging
+import time
 logging.basicConfig(level=logging.DEBUG)
 
 if __name__ == "__main__":
-    ctx = {
-        "data_es_object": None,
-        "analy_es_object": None,
-        "is_created_new_index": None,
-        "index_properties": es_idx_prop.twaren_device,
-        "mlad_properties": es_ml_prop.anomaly_detect_twaren_device,
-        "search_properties": es_search_prop.twaren_asr_device,
-        "search_result": None,
-        "mlad_result": None
-    }
+    while True:
+        ctx = {
+            "data_es_object": None,
+            "analy_es_object": None,
+            "is_created_new_index": None,
+            "index_properties": es_idx_prop.twaren_device,
+            "mlad_properties": es_ml_prop.anomaly_detect_twaren_device,
+            "search_properties": es_search_prop.twaren_asr_device,
+            "search_result": None,
+            "mlad_result": None
+        }
 
-    ob.prepare_all(ctx) and \
-        idx.create_process(ctx) and \
-        es_search.execute(ctx) and \
-        es_bulk.bulk_from_search(ctx) and \
-        mlad.process(ctx)
+        ob.prepare_all(ctx) and \
+            idx.create_process(ctx) and \
+            es_search.scan(ctx) and \
+            es_bulk.bulk_from_scan(ctx) and \
+            time.sleep(300)
+
+    # ob.prepare_all(ctx) and \
+    #     mlad.process(ctx)
