@@ -92,12 +92,11 @@ def get_records(mlad_ctx):
 
 def process(ctx):
     mlad_ctx = {
-        "job_id": "test_job_2",
-        "datafeed_id": "test_datafeed_2",
+        "job_id": "test_job_1",
+        "datafeed_id": "test_datafeed_1",
         "datafeed_indices": ["nms-devices_status-test-*"],
         "es_object": ctx["analy_es_object"],
         "mlad_properties": ctx["mlad_properties"],
-        "search_document_result": ctx["search_result"]["hits"]["hits"],
         "ad_result": None
     }
 

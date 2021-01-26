@@ -4,6 +4,7 @@ anomaly_detect_twaren_device = {
         "description": "",
         "groups": [],
         "analysis_config": {
+            "bucket_span": "5m",
             "detectors": [
                 {
                     "function": "count",
@@ -38,7 +39,12 @@ anomaly_detect_twaren_device = {
     "datafeed_id": "must assign",
     "datafeed_body": {
         "job_id": "must assign",
-        "indices": "must assign"
+        "indices": "must assign",
+        "frequency": "5m",
+        "delayed_data_check_config": {
+            "enabled": True,
+            "check_window": "5m"
+        },
     },
     "datafeed_time": {
         "start": "2021-01-21T00:00:00",
