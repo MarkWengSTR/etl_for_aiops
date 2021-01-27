@@ -13,10 +13,12 @@ twaren_asr_device = {
                 "filter": [
                     {"range": {
                         "@timestamp": {
-                            "gte": "now-30m/m",
+                            "gte": "now-15m/m",
                             "lt": "now/m"
                         }
-                    }}
+                    }},
+                    {"range": {"CurrentCPU": {"lte": 100}}},
+                    {"range": {"CurrentMemory": {"lte": 100}}}
                 ]
             }
         }
