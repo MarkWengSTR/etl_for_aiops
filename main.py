@@ -25,8 +25,8 @@ if __name__ == "__main__":
 
         ob.prepare_all(ctx) and \
             idx.create_process(ctx) and \
-            es_search.scan(ctx) and \
-            es_bulk.bulk_from_scan(ctx) and \
+            es_search.execute(ctx) and \
+            es_bulk.bulk_from_search(ctx) and \
             time.sleep(300)
 
     # ob.prepare_all(ctx) and \
