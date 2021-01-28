@@ -27,10 +27,8 @@ def close_job(mlad_ctx):
 
 
 def create_datafeed(mlad_ctx):
-    datafeed_body = {
-        "job_id": mlad_ctx["job_id"],
-        "indices": mlad_ctx["datafeed_indices"]
-    }
+    datafeed_body = mlad_ctx["mlad_properties"]["datafeed_body"] | {
+        "job_id": mlad_ctx["job_id"], "indices": mlad_ctx["datafeed_indices"]}
 
     MlClient.put_datafeed(
         mlad_ctx["es_object"], datafeed_id=mlad_ctx["datafeed_id"], body=datafeed_body)
@@ -92,8 +90,8 @@ def get_records(mlad_ctx):
 
 def process(ctx):
     mlad_ctx = {
-        "job_id": "test_job_1",
-        "datafeed_id": "test_datafeed_1",
+        "job_id": "test_job_over_device_no_partial",
+        "datafeed_id": "test_job_over_device_no_partial",
         "datafeed_indices": ["nms-devices_status-test-*"],
         "es_object": ctx["analy_es_object"],
         "mlad_properties": ctx["mlad_properties"],
