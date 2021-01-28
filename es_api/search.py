@@ -27,6 +27,20 @@ def days_range_props_list(days=0):
 
 
 def replace_range_prop(search_properties, day_prop):
+    # "body": {
+    #     "query": {
+    #         "bool": {
+    #             "filter": [
+    #                 {"range": {
+    #                     "@timestamp": {
+    #                         "gte": "now-15m/m",
+    #                         "lt": "now/m"
+    #                     }
+    #                 }}
+    #             ]
+    #         }
+    #     }
+    # }
     search_properties["body"]["query"]["bool"]["filter"][0]["range"]["@timestamp"] = day_prop
 
     print(search_properties)

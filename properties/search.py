@@ -16,9 +16,7 @@ twaren_asr_device = {
                             "gte": "now-15m/m",
                             "lt": "now/m"
                         }
-                    }},
-                    {"range": {"CurrentCPU": {"lte": 100}}},
-                    {"range": {"CurrentMemory": {"lte": 100}}}
+                    }}
                 ]
             }
         }
@@ -27,3 +25,13 @@ twaren_asr_device = {
 # "body": {
 #     "size": 10000,
 # }
+# "filter": [
+#     {"range": {
+#         "@timestamp": {
+#             "gte": "now-1h/h",
+#             "lt": "now/h"
+#         }
+#     }},
+#     {"range": {"CurrentCPU": {"lte": 100}}},
+#     {"range": {"CurrentMemory": {"lte": 100}}}
+# ]
