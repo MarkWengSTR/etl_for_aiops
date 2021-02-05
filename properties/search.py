@@ -22,6 +22,32 @@ twaren_asr_device = {
         }
     }
 }
+
+twaren_asr_syslog = {
+    "index": "logstash-syslog-2021.01.31",
+    "body": {
+        "query": {
+            "bool": {
+                "must": [
+                    {"regexp": {
+                        "syslog_hostname.raw": {
+                            "value": ".*ASR.*"
+                        }
+                    }}
+                ],
+                "filter": [
+                    {"range": {
+                        "@timestamp": {
+                            "gte": "now-15m/m",
+                            "lt": "now/m"
+                        }
+                    }}
+                ]
+            }
+        }
+    }
+}
+
 # "body": {
 #     "size": 10000,
 # }
@@ -35,3 +61,20 @@ twaren_asr_device = {
 #     {"range": {"CurrentCPU": {"lte": 100}}},
 #     {"range": {"CurrentMemory": {"lte": 100}}}
 # ]
+# "bool": {
+#     "must": [
+#         {"regexp": {
+#             "syslog_hostname.raw": {
+#                 "value": ".*ASR.*"
+#             }
+#         }}
+#     ],
+#     "filter": [
+#         {"range": {
+#             "@timestamp": {
+#                 "gte": "now-15m/m",
+#                 "lt": "now/m"
+#             }
+#         }}
+#     ]
+# }

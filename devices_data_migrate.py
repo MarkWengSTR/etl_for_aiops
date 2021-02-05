@@ -9,7 +9,7 @@ logging.basicConfig(level=logging.DEBUG)
 
 
 if __name__ == "__main__":
-    for day_range in es_search.days_range_props_list(15):
+    for day_range in es_search.time_range_from_now_props_list("d", 7):
         search_properties = es_search.replace_range_prop(
             es_search_prop.twaren_asr_device, day_range)
 

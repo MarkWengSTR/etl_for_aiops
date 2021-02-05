@@ -1,28 +1,87 @@
 import elasticsearch.helpers
 import functools
+import datetime
 
 
-def days_range_props_list(days=0):
+def pre_date_interval_list(days=0):
+    return map(
+        lambda day: datetime.date.today() - datetime.timedelta(day),
+        list(range(days+1))
+    )
+
+
+def dates_to_syslog_indexs_list(dates_list):
+    return map(
+        lambda date_string:
+        "logstash-syslog-" + str(date_string).replace("-", "."),
+        dates_list
+    )
+
+
+def hour_interval_formating(date):
+    """
+    "2020-02-03" -> ["2020-02-03T00:00:00", "2020-02-03T01:00:00", ... "2020-02-03T23:00:00", "2020-02-03T23:59:59"]
+    """
+    date_interval_list = list(
+        functools.reduce(
+            lambda collec, hour:
+            collec + [
+                (
+                    datetime.datetime.strptime(
+                        str(date), "%Y-%m-%d") + datetime.timedelta(hours=hour)
+                ).strftime("%Y-%m-%dT%H:%M:%S")
+            ],
+            list(range(24)),
+            []
+        )
+    )
+
+    date_interval_list.append("2020-02-03T23:59:59")
+
+    return date_interval_list
+
+
+def hour_interval_range_prop_list(date_interval_list):
+    """
+    "2020-02-03" -> ["2020-02-03T00:00:00", "2020-02-03T01:00:00", ... "2020-02-03T23:00:00", "2020-02-03T23:59:59"]
+                 -> [["2020-02-03T00:00:00", "2020-02-03T01:00:00"], ["2020-02-03T01:00:00", "2020-02-03T02:00:00"] ....
+                     ["2020-02-03T23:00:00", "2020-02-03T23:59:59"]]
+    """
+    return list(map(
+        lambda hour_begin, hour_end:
+        {
+            "gte": hour_begin,
+            "lt": hour_end
+        },
+        date_interval_list[:-1], date_interval_list[1:]))
+
+
+print(hour_interval_range_prop_list("2021-02-01"))
+
+
+def time_range_from_now_props_list(time_unit="d", nums=0):
     # [
-    #     {"gte": "now/d", "lt": "now+1d/d"}, -> days=0
-    #     {"gte": "now-1d/d", "lt": "now-0d/d"}, -> days=1
-    #     {"gte": "now-2d/d", "lt": "now-1d/d"}, -> days=2
+    #     {"gte": "now/d", "lt": "now+1d/d"}, time_unit="d", -> nums=0
+    #     {"gte": "now-1d/d", "lt": "now-0d/d"}, time_unit="d", -> nums=1
+    #     {"gte": "now-2d/d", "lt": "now-1d/d"}, time_unit="d", -> nums=2
     #     {"gte": "now-3d/d", "lt": "now-2d/d"},
     #     {"gte": "now-4d/d", "lt": "now-3d/d"},
     #     ...
     # ]
+    init_range = {
+        "gte": "now/{0}".format(time_unit),
+        "lt": "now+1{0}/{0}".format(time_unit)
+    }
+
     return list(
         functools.reduce(
-            lambda collec, day: collec +
+            lambda collec, num: collec +
             [{
-                "gte": "now-{0}d/d".format(day+1),
-                "lt": "now-{0}d/d".format(day)
+                "gte": "now-{0}{1}/{1}".format(num+1, time_unit),
+                "lt": "now-{0}{1}/{1}".format(num, time_unit)
             }],
-            list(range(days)),
-            [{
-                "gte": "now/d",
-                "lt": "now+1d/d"
-            }]
+            list(range(nums+1)),
+            [init_range]
         ))
 
 

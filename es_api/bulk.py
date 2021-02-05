@@ -36,9 +36,9 @@ def single_post_reformat(docu):
     ]
 
 
-def posts_reformat(documents):
+def posts_reformat(documents, reformat_func):
     return list(functools.reduce(lambda collec, docu: collec +
-                                 single_post_reformat(docu), documents, []))
+                                 reformat_func(docu), documents, []))
 
 
 def bulk_from_scan(ctx):
@@ -46,7 +46,7 @@ def bulk_from_scan(ctx):
 
     if documents:
         ctx["analy_es_object"].bulk(
-            posts_reformat(documents), index=documents[0]["_index"])
+            posts_reformat(documents, single_post_reformat), index=documents[0]["_index"])
     # expect only one index
 
     return ctx
@@ -57,7 +57,7 @@ def bulk_from_search(ctx):
 
     if documents:
         ctx["analy_es_object"].bulk(
-            posts_reformat(documents), index=documents[0]["_index"])
+            posts_reformat(documents, single_post_reformat), index=documents[0]["_index"])
     # expect only one index
 
     return ctx
