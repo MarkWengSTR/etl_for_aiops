@@ -3,11 +3,16 @@ import functools
 import datetime
 
 
-def pre_date_interval_list(days=0):
-    return map(
-        lambda day: datetime.date.today() - datetime.timedelta(day),
-        list(range(days+1))
+def pre_date_list(days=0) -> list:
+    return list(
+        map(
+            lambda day: str(datetime.date.today() - datetime.timedelta(day)),
+            list(range(days+1))
+        )
     )
+
+
+# print(pre_date_interval_list(3)) # 2021-02-17 use 3 ;=> ['2021-02-17', '2021-02-16', '2021-02-15', '2021-02-14']"
 
 
 def dates_to_syslog_indexs_list(dates_list):
@@ -16,6 +21,8 @@ def dates_to_syslog_indexs_list(dates_list):
         "logstash-syslog-" + str(date_string).replace("-", "."),
         dates_list
     )
+# def dates_to_syslog_index(date):
+#     return "logstash-syslog-" + str(date).replace("-", ".")
 
 
 def hour_interval_formating(date):
@@ -36,7 +43,7 @@ def hour_interval_formating(date):
         )
     )
 
-    date_interval_list.append("2020-02-03T23:59:59")
+    date_interval_list.append(date + "T23:59:59")
 
     return date_interval_list
 
@@ -56,7 +63,7 @@ def hour_interval_range_prop_list(date_interval_list):
         date_interval_list[:-1], date_interval_list[1:]))
 
 
-print(hour_interval_range_prop_list("2021-02-01"))
+# print(hour_interval_range_prop_list(hour_interval_formating("2021-02-01")))
 
 
 def time_range_from_now_props_list(time_unit="d", nums=0):
