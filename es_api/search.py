@@ -25,7 +25,7 @@ def dates_to_syslog_indexs_list(dates_list):
 #     return "logstash-syslog-" + str(date).replace("-", ".")
 
 
-def hour_interval_formating(date):
+def format_hours_list_in_day(date) -> list:
     """
     "2020-02-03" -> ["2020-02-03T00:00:00", "2020-02-03T01:00:00", ... "2020-02-03T23:00:00", "2020-02-03T23:59:59"]
     """
@@ -48,7 +48,7 @@ def hour_interval_formating(date):
     return date_interval_list
 
 
-def hour_interval_range_prop_list(date_interval_list):
+def hours_range_prop_list_in_day(date_interval_list) -> list:
     """
     "2020-02-03" -> ["2020-02-03T00:00:00", "2020-02-03T01:00:00", ... "2020-02-03T23:00:00", "2020-02-03T23:59:59"]
                  -> [["2020-02-03T00:00:00", "2020-02-03T01:00:00"], ["2020-02-03T01:00:00", "2020-02-03T02:00:00"] ....
