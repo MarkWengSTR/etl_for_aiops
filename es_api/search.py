@@ -21,8 +21,6 @@ def dates_to_syslog_indexs_list(dates_list):
         "logstash-syslog-" + str(date_string).replace("-", "."),
         dates_list
     )
-# def dates_to_syslog_index(date):
-#     return "logstash-syslog-" + str(date).replace("-", ".")
 
 
 def format_hours_list_in_day(date) -> list:
@@ -50,9 +48,13 @@ def format_hours_list_in_day(date) -> list:
 
 def hours_range_prop_list_in_day(date_interval_list) -> list:
     """
-    "2020-02-03" -> ["2020-02-03T00:00:00", "2020-02-03T01:00:00", ... "2020-02-03T23:00:00", "2020-02-03T23:59:59"]
-                 -> [["2020-02-03T00:00:00", "2020-02-03T01:00:00"], ["2020-02-03T01:00:00", "2020-02-03T02:00:00"] ....
-                     ["2020-02-03T23:00:00", "2020-02-03T23:59:59"]]
+    ["2020-02-03T00:00:00", "2020-02-03T01:00:00", ... "2020-02-03T23:00:00", "2020-02-03T23:59:59"]
+     -> [
+            {"gte": "2020-02-03T00:00:00", "lt": "2020-02-03T01:00:00"},
+            {"gte": "2020-02-03T01:00:00", "lt": "2020-02-03T02:00:00"},
+            .....
+            {"gte": "2020-02-03T23:00:00", "lt": "2020-02-03T23:59:59"},
+        ]
     """
     return list(map(
         lambda hour_begin, hour_end:
@@ -63,7 +65,18 @@ def hours_range_prop_list_in_day(date_interval_list) -> list:
         date_interval_list[:-1], date_interval_list[1:]))
 
 
-# print(hour_interval_range_prop_list(hour_interval_formating("2021-02-01")))
+def hour_range_prop_per_day_lists(dates_list):
+    return list(
+        functools.reduce(
+            lambda collec, date:
+            collec + [
+                hours_range_prop_list_in_day(
+                    format_hours_list_in_day(date))
+            ],
+            dates_list,
+            []
+        )
+    )
 
 
 def time_range_from_now_props_list(time_unit="d", nums=0):

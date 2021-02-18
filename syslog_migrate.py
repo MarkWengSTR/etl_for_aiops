@@ -1,4 +1,3 @@
-import functools
 import logging
 
 import properties.search as es_search_prop
@@ -11,20 +10,8 @@ logging.basicConfig(level=logging.DEBUG)
 if __name__ == "__main__":
     dates_list = es_search.pre_date_list(2)
 
-    hour_range_prop_per_day_lists = list(
-        functools.reduce(
-            lambda collec, date:
-            collec + [
-                es_search.hours_range_prop_list_in_day(
-                    es_search.format_hours_list_in_day(date))
-            ],
-            dates_list,
-            []
-        )
-    )
-
     for index, hour_ranges_list in zip(
-            es_search.dates_to_syslog_indexs_list(dates_list), hour_range_prop_per_day_lists):
+            es_search.dates_to_syslog_indexs_list(dates_list), es_search.hour_range_prop_per_day_lists(dates_list)):
 
         es_search_prop.twaren_asr_syslog.update({"index": index})
 
