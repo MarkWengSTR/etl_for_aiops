@@ -1,5 +1,5 @@
 from elasticsearch import Elasticsearch
-import properties.object as es_ob_prop
+import es_properties.object as es_ob_prop
 
 
 def prepare(object_ctx):

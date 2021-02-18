@@ -1,9 +1,10 @@
 import logging
 
-import properties.search as es_search_prop
+import es_properties.search as es_search_prop
 import es_api.bulk as es_bulk
 import es_api.search as es_search
 import es_api.object as ob
+
 logging.basicConfig(level=logging.DEBUG)
 
 

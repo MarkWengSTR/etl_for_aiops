@@ -1,13 +1,15 @@
+import logging
+import time
+
 import es_api.object as ob
 import es_api.index as idx
 import es_api.machine_learning.anomaly_detection as mlad
 import es_api.search as es_search
 import es_api.bulk as es_bulk
-import properties.index as es_idx_prop
-import properties.machine_learning as es_ml_prop
-import properties.search as es_search_prop
-import logging
-import time
+import es_properties.index as es_idx_prop
+import es_properties.machine_learning as es_ml_prop
+import es_properties.search as es_search_prop
+
 logging.basicConfig(level=logging.DEBUG)
 
 if __name__ == "__main__":
