@@ -11,7 +11,7 @@ logging.basicConfig(level=logging.DEBUG)
 
 
 if __name__ == "__main__":
-    for day_range in es_search.time_range_from_now_props_list("d", 7):
+    for day_range in es_search.time_range_from_now_props_list("d", 3):
         search_properties = es_search.replace_range_prop(
             es_search_prop.twaren_asr_device, day_range)
 
@@ -22,6 +22,7 @@ if __name__ == "__main__":
             "index_properties": es_idx_prop.twaren_device,
             "search_properties": search_properties,
             "search_result": None,
+            "override_index_name": "twaren_asr_device"
         }
 
         ob.prepare_all(ctx) and \

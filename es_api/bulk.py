@@ -46,8 +46,9 @@ def bulk_from_scan(ctx):
 
     if documents:
         ctx["analy_es_object"].bulk(
-            posts_reformat(documents, single_post_reformat), index=documents[0]["_index"])
-    # expect only one index
+            posts_reformat(documents, single_post_reformat),
+            index=ctx.get("index_properties", {}).get("name") or ctx["override_index_name"] or documents[0]["_index"])
+    # expect documents have only one index
 
     return ctx
 
@@ -57,7 +58,8 @@ def bulk_from_search(ctx):
 
     if documents:
         ctx["analy_es_object"].bulk(
-            posts_reformat(documents, single_post_reformat), index=documents[0]["_index"])
-    # expect only one index
+            posts_reformat(documents, single_post_reformat),
+            index=ctx.get("index_properties", {}).get("name") or ctx["override_index_name"] or documents[0]["_index"])
+    # expect documents have only one index
 
     return ctx
