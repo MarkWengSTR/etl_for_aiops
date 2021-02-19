@@ -80,14 +80,16 @@ def hour_range_prop_per_day_lists(dates_list):
 
 
 def time_range_from_now_props_list(time_unit="d", nums=0):
-    # [
-    #     {"gte": "now/d", "lt": "now+1d/d"}, time_unit="d", -> nums=0
-    #     {"gte": "now-1d/d", "lt": "now-0d/d"}, time_unit="d", -> nums=1
-    #     {"gte": "now-2d/d", "lt": "now-1d/d"}, time_unit="d", -> nums=2
-    #     {"gte": "now-3d/d", "lt": "now-2d/d"},
-    #     {"gte": "now-4d/d", "lt": "now-3d/d"},
-    #     ...
-    # ]
+    """
+    [
+        {"gte": "now/d", "lt": "now+1d/d"}, time_unit="d", -> nums=0
+        {"gte": "now-1d/d", "lt": "now-0d/d"}, time_unit="d", -> nums=1
+        {"gte": "now-2d/d", "lt": "now-1d/d"}, time_unit="d", -> nums=2
+        {"gte": "now-3d/d", "lt": "now-2d/d"},
+        {"gte": "now-4d/d", "lt": "now-3d/d"},
+        ...
+    ]
+    """
     init_range = {
         "gte": "now/{0}".format(time_unit),
         "lt": "now+1{0}/{0}".format(time_unit)
@@ -106,20 +108,23 @@ def time_range_from_now_props_list(time_unit="d", nums=0):
 
 
 def replace_range_prop(search_properties, day_prop):
-    # "body": {
-    #     "query": {
-    #         "bool": {
-    #             "filter": [
-    #                 {"range": {
-    #                     "@timestamp": {
-    #                         "gte": "now-15m/m",
-    #                         "lt": "now/m"
-    #                     }
-    #                 }}
-    #             ]
-    #         }
-    #     }
-    # }
+    """
+    search_properties =
+        "body": {
+            "query": {
+                "bool": {
+                    "filter": [
+                        {"range": {
+                            "@timestamp": {
+                                "gte": "now-15m/m",
+                                "lt": "now/m"
+                            }
+                        }}
+                    ]
+                }
+            }
+        }
+    """
     search_properties["body"]["query"]["bool"]["filter"][0]["range"]["@timestamp"] = day_prop
 
     print(search_properties)

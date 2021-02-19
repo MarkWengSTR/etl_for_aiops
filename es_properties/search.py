@@ -24,7 +24,7 @@ twaren_asr_device = {
 }
 
 twaren_asr_syslog = {
-    "index": "logstash-syslog-2021.01.31",
+    "index": "logstash-syslog-2021.02.19",
     "body": {
         "query": {
             "bool": {
