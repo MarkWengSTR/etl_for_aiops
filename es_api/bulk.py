@@ -1,4 +1,5 @@
 import functools
+import csv
 
 # documents = [
 #     {"index": {"_id": "dev001-1611214501578"}},
@@ -29,16 +30,37 @@ import functools
 # ]
 
 
-def single_post_reformat(docu):
+def reformat_for_bulk(docu):
     return [
         {"index": {"_id": docu["_id"]}},
         docu["_source"]
     ]
 
 
-def posts_reformat(documents, reformat_func):
+def reformat_source(docu):
+    return [
+        docu["_source"]
+    ]
+
+
+def posts_reformat(documents, reformat_func) -> list:
     return list(functools.reduce(lambda collec, docu: collec +
                                  reformat_func(docu), documents, []))
+
+
+def bulk_to_csv(ctx):
+    documents = ctx["search_result"]
+
+    if documents:
+        result = posts_reformat(documents, reformat_source)
+        col_names = result[0].keys()
+
+        with open("test.csv", "w", newline="") as out_file:
+            dict_writer = csv.DictWriter(out_file, col_names)
+            dict_writer.writeheader()
+            dict_writer.writerows(result)
+
+    return ctx
 
 
 def bulk_from_scan(ctx):
@@ -46,7 +68,7 @@ def bulk_from_scan(ctx):
 
     if documents:
         ctx["analy_es_object"].bulk(
-            posts_reformat(documents, single_post_reformat),
+            posts_reformat(documents, reformat_for_bulk),
             index=ctx.get("index_properties", {}).get("name") or ctx["override_index_name"] or documents[0]["_index"])
     # expect documents have only one index
 
@@ -58,7 +80,7 @@ def bulk_from_search(ctx):
 
     if documents:
         ctx["analy_es_object"].bulk(
-            posts_reformat(documents, single_post_reformat),
+            posts_reformat(documents, reformat_for_bulk),
             index=ctx.get("index_properties", {}).get("name") or ctx["override_index_name"] or documents[0]["_index"])
     # expect documents have only one index
 
